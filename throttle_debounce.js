@@ -1,13 +1,18 @@
+
+
 Function.prototype.myThrottle = function (ourInterval) {
   let tooSoon = false;
+  let outer = this;
+  return function (){ 
+    if (!tooSoon){
   
-  if (!tooSoon){
-    // console.log('testing')
-    tooSoon = true;
-    setTimeout(function () { tooSoon = false; }, ourInterval);
-    // setTimeout(function () { console.log('testing'); }, ourInterval);
-    this.call();
-  }
+      tooSoon = true;
+      setTimeout(function () { tooSoon = false; }, ourInterval);
+      outer.call();
+    } 
+    
+  };
+
 }
 
 
@@ -25,22 +30,24 @@ const neuron = new Neuron();
 // we can call #fire as frequently as we want
 
 // The following code will try to #fire the neuron every 10ms. Try it in the console:
-const interval = setInterval(() => {
-  neuron.fire();
-}, 10);
+// const interval = setInterval(() => {
+//   neuron.fire();
+// }, 10);
 
 // You can use clearInterval to stop the firing:
-clearInterval(interval);
+// clearInterval(interval);
 
 // Using Function#myThrottle, we should be able to throttle
 // the #fire function of our neuron so that it can only fire
 // once every 500ms:
+// console.log(neuron.fire.myThrottle(500));
 
-neuron.fire = neuron.fire.myThrottle(500);
+throttledFire = neuron.fire.myThrottle(500);
+console.log(throttledFire);
 
-// const interval = setInterval(() => {
-//   neuron.fire();
-// }, 10);
+const interval = setInterval(() => {
+  throttledFire();
+}, 10);
 
 // // This time, if our Function#myThrottle worked correctly,
 // // the Neuron#fire function should only be able to execute
