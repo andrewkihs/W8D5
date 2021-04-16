@@ -10,7 +10,6 @@ Function.prototype.myThrottle = function (ourInterval) {
       setTimeout(function () { tooSoon = false; }, ourInterval);
       outer.call();
     } 
-    
   };
 
 }
