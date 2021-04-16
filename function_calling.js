@@ -22,7 +22,7 @@ const turnOn = function() {
 const lamp = new Lamp();
 
 turnOn(); // should not work the way we want it to
-
+console.log('---------')
 const boundTurnOn = turnOn.bind(lamp);
 const myBoundTurnOn = turnOn.myBind(lamp);
 
